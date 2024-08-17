@@ -1,40 +1,129 @@
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    background-color: #f0f0f0;
+  background: linear-gradient(135deg, rgb(174, 0, 255), rgb(255, 72, 0));
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden; /* Hide overflow to ensure floating elements are contained */
 }
 
-.app-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80vw; /* 80% of viewport width */
+  height: 80vh; /* 80% of viewport height */
+  position: relative;
+  z-index: 1; /* Ensure the container is above floating elements */
 }
 
-#drawingCanvas {
-    border: 1px solid #000;
-    cursor: crosshair;
+canvas {
+  background: rgba(255, 255, 255, 0.116); /* Semi-transparent background */
+  border: 2px solid #860f0f80;
+  border-radius: 3%; /* Transparent white border */
+  backdrop-filter: blur(10px); /* Frosted glass effect */
+  width: 100%; /* Full width of the container */
+  height: 80%; /* 80% of container height */
+  position: relative; /* Ensure canvas positioning is relative */
+  z-index: 1; /* Ensure the canvas is above floating elements */
+}
+
+.color-picker-container {
+  display: flex;
+  align-items: center;
+  gap: 5px; /* Space between button and color input */
+  position: relative;
+}
+
+.colorPlaceholder {
+  background-color: rgba(255, 255, 255, 0.1); /* Transparent background */
+  border: 1px solid #860f0f80; /* Transparent white border */
+  color: white;
+  width: 70px; /* Adjust size as needed */
+  height: 30px; /* Adjust size as needed */
+  border-radius: 5px; /* Rounded corners */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  pointer-events: none; /* Prevent label from interfering with color picker */
+}
+
+.color-picker-input {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Ensure label hides when color picker is in use */
+.color-picker-input:focus + .colorPlaceholder {
+  display: none;
 }
 
 .controls {
-    margin-top: 10px;
-    display: flex;
-    gap: 10px;
-    align-items: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Create responsive columns */
+  gap: 10px; /* Adjust the gap between items */
+  width: 100%; /* Full width of the container */
+  margin-top: 20px;
+  position: relative;
+  z-index: 2; /* Ensure controls are above the canvas */
 }
 
-input[type="color"] {
-    border: none;
-    padding: 5px;
+button, input[type="range"] {
+  background-color: transparent;
+  border: 2px solid #ffffff80; /* Transparent white border */
+  border-radius: 5%;
+  color: white;
+  padding: 10px;
 }
 
-input[type="range"] {
-    vertical-align: middle;
+button:hover, input[type="range"]:hover {
+  border-color: white;
 }
 
-button {
-    padding: 5px 10px;
-    cursor: pointer;
+/* Floating elements */
+.floating {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
+  width: 100px; /* Adjust size as needed */
+  height: 100px; /* Adjust size as needed */
+  animation: float 6s ease-in-out infinite;
+  z-index: 0; /* Behind the canvas and controls */
+}
+
+.floating:nth-child(1) {
+  top: 10%;
+  left: 20%;
+  animation-duration: 8s;
+}
+
+.floating:nth-child(2) {
+  top: 30%;
+  right: 10%;
+  animation-duration: 10s;
+}
+
+.floating:nth-child(3) {
+  bottom: 20%;
+  left: 40%;
+  animation-duration: 12s;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }
