@@ -1,57 +1,93 @@
-const canvas = document.getElementById('drawingCanvas');
-const ctx = canvas.getContext('2d');
-const colorPicker = document.getElementById('colorPicker');
-const brushSizeInput = document.getElementById('brushSize');
-const eraserButton = document.getElementById('eraserButton');
-const clearButton = document.getElementById('clearButton');
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+const clearBtn = document.getElementById("clear");
+const eraserBtn = document.getElementById("eraser");
+const colorPicker = document.getElementById("colorPicker");
+const colorButton = document.getElementById("colorButton");
+const brushSize = document.getElementById("brushSize");
 
-canvas.width = 800;  // Set canvas width
-canvas.height = 600; // Set canvas height
+let isDrawing = false;
+let color = "white";
+let size = 5;
+let isEraser = false;
+let lastX, lastY;
 
-let drawing = false;
-let erasing = false;
+// Function to resize canvas to fill container
+const resizeCanvas = () => {
+  canvas.width = canvas.clientWidth;
+  canvas.height = canvas.clientHeight;
+};
 
-function startDrawing(e) {
-    drawing = true;
-    ctx.beginPath();
-    ctx.moveTo(e.offsetX, e.offsetY);
-}
+// Initial resize
+resizeCanvas();
 
-function draw(e) {
-    if (!drawing) return;
-    ctx.lineTo(e.offsetX, e.offsetY);
-    ctx.stroke();
-}
+// Handle window resize
+window.addEventListener("resize", () => {
+  resizeCanvas();
+});
 
-function stopDrawing() {
-    drawing = false;
-    ctx.closePath();
-}
+const getMousePosition = (e) => {
+  const rect = canvas.getBoundingClientRect();
+  return {
+    x: e.clientX - rect.left,
+    y: e.clientY - rect.top,
+  };
+};
 
-function setColor(e) {
-    ctx.strokeStyle = e.target.value;
-}
+const draw = (e) => {
+  if (!isDrawing) return;
 
-function setBrushSize(e) {
-    ctx.lineWidth = e.target.value;
-}
+  const { x, y } = getMousePosition(e);
 
-function toggleEraser() {
-    erasing = !erasing;
-    ctx.strokeStyle = erasing ? '#ffffff' : colorPicker.value;
-    eraserButton.textContent = erasing ? 'Brush' : 'Eraser';
-}
+  ctx.beginPath();
+  ctx.lineWidth = size;
+  ctx.lineCap = "round";
 
-function clearCanvas() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-}
+  if (isEraser) {
+    ctx.globalCompositeOperation = "destination-out"; // Set to eraser mode
+    ctx.strokeStyle = "rgba(0,0,0,1)"; // Full opacity for erasing
+  } else {
+    ctx.globalCompositeOperation = "source-over"; // Set to normal drawing mode
+    ctx.strokeStyle = color;
+  }
 
-canvas.addEventListener('mousedown', startDrawing);
-canvas.addEventListener('mousemove', draw);
-canvas.addEventListener('mouseup', stopDrawing);
-canvas.addEventListener('mouseout', stopDrawing);
+  ctx.moveTo(lastX, lastY);
+  ctx.lineTo(x, y);
+  ctx.stroke();
+  [lastX, lastY] = [x, y];
+};
 
-colorPicker.addEventListener('input', setColor);
-brushSizeInput.addEventListener('input', setBrushSize);
-eraserButton.addEventListener('click', toggleEraser);
-clearButton.addEventListener('click', clearCanvas);
+const startDraw = (e) => {
+  isDrawing = true;
+  const { x, y } = getMousePosition(e);
+  [lastX, lastY] = [x, y];
+};
+
+const endDraw = () => {
+  isDrawing = false;
+};
+
+canvas.addEventListener("mousedown", startDraw);
+canvas.addEventListener("mousemove", draw);
+canvas.addEventListener("mouseup", endDraw);
+canvas.addEventListener("mouseout", endDraw);
+
+clearBtn.addEventListener("click", () => {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+});
+
+eraserBtn.addEventListener("click", () => {
+  isEraser = !isEraser;
+  eraserBtn.textContent = isEraser ? "Pencil" : "Eraser";
+  // Reset the composite operation when switching to/from eraser
+  ctx.globalCompositeOperation = "source-over"; // Ensure drawing mode is active
+});
+
+colorPicker.addEventListener("change", (e) => {
+  color = e.target.value;
+  colorButton.style.backgroundColor = color; // Update the color button's background
+});
+
+brushSize.addEventListener("change", (e) => {
+  size = e.target.value;
+});
