@@ -1,47 +1,57 @@
-const canvas = document.getElementById('canvas');
+const canvas = document.getElementById('drawingCanvas');
 const ctx = canvas.getContext('2d');
 const colorPicker = document.getElementById('colorPicker');
-const brushSize = document.getElementById('brushSize');
-const clearCanvas = document.getElementById('clearCanvas');
-const eraser = document.getElementById('eraser');
+const brushSizeInput = document.getElementById('brushSize');
+const eraserButton = document.getElementById('eraserButton');
+const clearButton = document.getElementById('clearButton');
 
-let isDrawing = false;
-let isErasing = false;
+canvas.width = 800;  // Set canvas width
+canvas.height = 600; // Set canvas height
 
-// Start drawing on mouse down
-canvas.addEventListener('mousedown', (e) => {
-    isDrawing = true;
+let drawing = false;
+let erasing = false;
+
+function startDrawing(e) {
+    drawing = true;
     ctx.beginPath();
-    ctx.moveTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
-});
+    ctx.moveTo(e.offsetX, e.offsetY);
+}
 
-// Draw on canvas as mouse moves
-canvas.addEventListener('mousemove', (e) => {
-    if (isDrawing) {
-        if (isErasing) {
-            ctx.globalCompositeOperation = 'destination-out';
-        } else {
-            ctx.globalCompositeOperation = 'source-over';
-            ctx.strokeStyle = colorPicker.value;
-            ctx.lineWidth = brushSize.value;
-            ctx.lineTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
-            ctx.stroke();
-        }
-    }
-});
+function draw(e) {
+    if (!drawing) return;
+    ctx.lineTo(e.offsetX, e.offsetY);
+    ctx.stroke();
+}
 
-// Stop drawing on mouse up
-canvas.addEventListener('mouseup', () => {
-    isDrawing = false;
-});
+function stopDrawing() {
+    drawing = false;
+    ctx.closePath();
+}
 
-// Clear canvas
-clearCanvas.addEventListener('click', () => {
+function setColor(e) {
+    ctx.strokeStyle = e.target.value;
+}
+
+function setBrushSize(e) {
+    ctx.lineWidth = e.target.value;
+}
+
+function toggleEraser() {
+    erasing = !erasing;
+    ctx.strokeStyle = erasing ? '#ffffff' : colorPicker.value;
+    eraserButton.textContent = erasing ? 'Brush' : 'Eraser';
+}
+
+function clearCanvas() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-});
+}
 
-// Toggle eraser mode
-eraser.addEventListener('click', () => {
-    isErasing = !isErasing;
-    eraser.style.backgroundColor = isErasing ? '#ddd' : '#fff'; // Change button color to indicate mode
-});
+canvas.addEventListener('mousedown', startDrawing);
+canvas.addEventListener('mousemove', draw);
+canvas.addEventListener('mouseup', stopDrawing);
+canvas.addEventListener('mouseout', stopDrawing);
+
+colorPicker.addEventListener('input', setColor);
+brushSizeInput.addEventListener('input', setBrushSize);
+eraserButton.addEventListener('click', toggleEraser);
+clearButton.addEventListener('click', clearCanvas);
