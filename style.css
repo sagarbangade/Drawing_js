@@ -1,49 +1,40 @@
-/* General body styling */
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #e0e0e0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
 }
 
-/* Container for the canvas and controls */
-.container {
-  text-align: center;
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+.app-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-/* Basic styling for the canvas */
-#canvas {
-  border: 5px solid #000; /* Adjust border width and color as needed */
-  background-color: #f0f0f0;
-  max-width: 100%;
-  height: auto;
+#drawingCanvas {
+    border: 1px solid #000;
+    cursor: crosshair;
 }
 
-/* Styling for the controls */
 .controls {
-  margin-top: 10px;
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
 }
 
-.control-btn {
-  margin: 5px;
+input[type="color"] {
+    border: none;
+    padding: 5px;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  #canvas {
-      width: 100%;
-      height: auto;
-  }
+input[type="range"] {
+    vertical-align: middle;
+}
 
-  .control-btn {
-      display: block;
-      margin: 5px auto;
-  }
+button {
+    padding: 5px 10px;
+    cursor: pointer;
 }
