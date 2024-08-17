@@ -1,0 +1,49 @@
+/* General body styling */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #e0e0e0;
+}
+
+/* Container for the canvas and controls */
+.container {
+  text-align: center;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Basic styling for the canvas */
+#canvas {
+  border: 5px solid #000; /* Adjust border width and color as needed */
+  background-color: #f0f0f0;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Styling for the controls */
+.controls {
+  margin-top: 10px;
+}
+
+.control-btn {
+  margin: 5px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  #canvas {
+      width: 100%;
+      height: auto;
+  }
+
+  .control-btn {
+      display: block;
+      margin: 5px auto;
+  }
+}
