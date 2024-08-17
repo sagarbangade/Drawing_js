@@ -1,21 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html>
+  <head>
     <title>Drawing App</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <div class="app-container">
-        <canvas id="drawingCanvas"></canvas>
-        <div class="controls">
-            <input type="color" id="colorPicker" />
-            <input type="range" id="brushSize" min="1" max="50" value="5">
-            <button id="eraserButton">Eraser</button>
-            <button id="clearButton">Clear Canvas</button>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="floating"></div>
+    <div class="floating"></div>
+    <div class="floating"></div>
+    <div class="container">
+      <canvas id="canvas"></canvas>
+      <div class="controls">
+        <button id="clear">Clear</button>
+        <button id="eraser">Eraser</button>
+        <div class="color-picker-container">
+          <label for="colorPicker" id="colorPlaceholder">Select Color</label>
+          <input type="color" id="colorPicker" class="color-picker-input" />
         </div>
+        <input type="range" min="1" max="50" value="5" id="brushSize" />
+      </div>
     </div>
     <script src="script.js"></script>
-</body>
+  </body>
 </html>
