@@ -1,6 +1,8 @@
 # Drawing App
 
 This is a simple drawing app built using HTML, CSS, and JavaScript. It allows users to draw on a canvas, choose different brush sizes and colors, and switch between pencil and eraser modes. The app is responsive and features floating animations for a dynamic UI.
+## Demo
+You can view a live demo of the app [here]([your-demo-link](https://sagarbangade.github.io/Drawing_js/)).
 
 ## Features
 - **Drawing Mode**: Use the brush to draw on the canvas.
@@ -33,8 +35,6 @@ This is a simple drawing app built using HTML, CSS, and JavaScript. It allows us
 - **Clear Canvas**: Click the "Clear" button to reset the canvas.
 - **Eraser**: Toggle between eraser and pencil mode by clicking the "Eraser" button.
 
-## Demo
-You can view a live demo of the app [here](your-demo-link).
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
